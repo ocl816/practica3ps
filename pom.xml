@@ -7,10 +7,17 @@
     <groupId>es.unican.ps</groupId>
     <artifactId>uc_hoteles</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>uc_hoteles_business</module>
+        <module>uc_hoteles_dao</module>
+        <module>uc_hoteles_common</module>
+        <module>uc_hoteles_web</module>
+        <module>uc_hoteles_dao</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
-
 </project>

@@ -1,4 +1,4 @@
-package es.unican.ps.uc_hoteles.common;
+package es.unican.ps.uc_hoteles.common.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

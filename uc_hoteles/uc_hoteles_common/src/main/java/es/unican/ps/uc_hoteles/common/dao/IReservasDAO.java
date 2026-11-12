@@ -3,7 +3,9 @@ package es.unican.ps.uc_hoteles.common.dao;
 import java.util.List;
 
 import es.unican.ps.uc_hoteles.common.domain.Reserva;
+import jakarta.ejb.Local;
 
+@Local 
 public interface IReservasDAO {
     /**
      * Anhade una reserva a la base de datos

@@ -43,21 +43,13 @@ public interface IGestionReservasUsuario {
     public boolean cancelarReserva(int idReserva, String dni);
     
     /**
-     * Busca todos los hoteles disponibles segun localidad y fechas de establecimiento
-     * @param localidad localidad del hotel
-     * @param fechaEntrada fecha de entrada del cliente
-     * @param fechaSalida fecha de salida del cliente
-     * @return una lista con todos los hoteles disponibles en funcion de los parametros introducidos
-     */
-    public List<Hotel> buscarHotelesDisponibles(String localidad, LocalDate fechaEntrada, LocalDate fechaSalida);
-    
-    /**
      * Inicia una reserva en curso
     * @param h hotel del cual se va a realizar la reserva
     * @param fechaEntrada fecha de entrada al hotel
     * @param fechaSalida fecha de salida del hotel
+    * @return la lista con las habitaciones disponibles en el hotel
     */
-    public void iniciarReserva(Hotel h, LocalDate fechaEntrada, LocalDate fechaSalida);
+    public List<Habitacion> iniciarReserva(Hotel h, LocalDate fechaEntrada, LocalDate fechaSalida);
 
     /**
      * Anhade una o varias habitaciones a una reserva en curso

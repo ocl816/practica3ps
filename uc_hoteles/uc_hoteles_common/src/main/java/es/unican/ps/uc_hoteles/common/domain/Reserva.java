@@ -15,12 +15,23 @@ public class Reserva {
     private int id;
     private LocalDate fechaEntrada;
     private LocalDate fechaSalida;
-    private double importe;
 
     private Hotel hotel;
     private DatosCliente datosCliente;
     private DatosPago datosPago;
 
     private List<LineaReserva> lineas = new ArrayList<>();
+
+    /**
+     * Obtiene el importe de la reserva
+     * @return el importe de la reserva
+     */
+    public double getImporte() {
+        double res = 0;
+        for (LineaReserva lineaReserva : lineas) {
+            res += lineaReserva.getHabitacion().getPrecioPorNoche() * lineaReserva.getNumHabitaciones();
+        }
+        return res;
+    }
 
 }

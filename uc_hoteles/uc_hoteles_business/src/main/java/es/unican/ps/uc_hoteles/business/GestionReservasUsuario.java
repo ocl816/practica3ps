@@ -1,6 +1,7 @@
 package es.unican.ps.uc_hoteles.business;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class GestionReservasUsuario implements IGestionReservasUsuario {
     private IReservasDAO reservasDAO;
 
     private Reserva reservaEnCurso;
+    private List<Habitacion> disponibilidadHotel;
+    private LocalDateTime fechaBloqueo;
 
     /**
      * @see IGestionReservasUsuario#buscarHotelPorNombre()
@@ -50,7 +53,7 @@ public class GestionReservasUsuario implements IGestionReservasUsuario {
     public Reserva consultarReserva(int idReserva, String dni) {
         Reserva r = reservasDAO.buscaReserva(idReserva);
 
-        if (r != null && r.getDatosCliente().getDni().equals(dni)) {
+        if (r != null  && r.getDatosCliente() != null && r.getDatosCliente().getDni().equals(dni)) {
             return r;
         }
 
@@ -86,7 +89,34 @@ public class GestionReservasUsuario implements IGestionReservasUsuario {
         reservaEnCurso.setFechaEntrada(fechaEntrada);
         reservaEnCurso.setFechaSalida(fechaSalida);
         reservaEnCurso.setLineas(new ArrayList<>());
-        return h.getHabitaciones();
+        
+        List<Reserva> reservasHotel = reservasDAO.buscaReservasPorHotel(h.getNombre());
+        disponibilidadHotel = new ArrayList<>();
+
+        //Calcula la disponibilidad actual de cada habitacion del hotel  
+        for (Habitacion hab : h.getHabitaciones()) {
+            int ocupadas = 0;
+
+            if (reservasHotel != null) {
+                for (Reserva r : reservasHotel) {
+                    // Comprueba que no exista un solapamiento de fechas
+                    if (r.getFechaEntrada().isBefore(fechaSalida) && r.getFechaSalida().isAfter(fechaEntrada)) {
+                        for (LineaReserva linea : r.getLineas()) {
+                            if (linea.getHabitacion().getTipo() == hab.getTipo()) {
+                                ocupadas += linea.getNumHabitaciones();
+                            }
+                        }
+                    }
+                }
+            }
+
+            int libres = hab.getDisponibles() - ocupadas;
+            if (libres > 0) {
+                disponibilidadHotel.add(new Habitacion(hab.getPrecioPorNoche(), libres, hab.getTipo()));
+            }
+        }
+
+        return disponibilidadHotel;
     }
 
     
@@ -95,10 +125,25 @@ public class GestionReservasUsuario implements IGestionReservasUsuario {
      */
     @Override 
     public double anhadirHabitacion(Habitacion hab, int cantidad) {
-        if (cantidad > 0) {
-            LineaReserva linea = new LineaReserva(cantidad, hab);
-            this.reservaEnCurso.getLineas().add(linea);
+        if (reservaEnCurso == null || disponibilidadHotel == null || cantidad <= 0) {
+            return -1;
         }
+
+        // Comprueba que existen habitaciones suficientes para ese tipo 
+        for (Habitacion disp : disponibilidadHotel) {
+            if (disp.getTipo() == hab.getTipo()) {
+                if (cantidad > disp.getDisponibles()) {
+                    return -1; // No hay suficientes habitaciones libres de este tipo
+                }
+                break;
+            }
+        }
+
+        LineaReserva linea = new LineaReserva(cantidad, hab);
+        this.reservaEnCurso.getLineas().add(linea);
+        
+        // Inicia el bloqueo temporal
+        this.fechaBloqueo = LocalDateTime.now();
 
         return this.reservaEnCurso.getImporte();
     }
@@ -108,11 +153,24 @@ public class GestionReservasUsuario implements IGestionReservasUsuario {
      */
     @Override
     public int confirmarReserva(DatosCliente cliente, DatosPago pago) {
+        if (reservaEnCurso == null || fechaBloqueo == null) {
+            return -1;
+        }
+
+        // Comprueba si se ha acabado el bloquedo de 10 minutos de la habitacion
+        if (LocalDateTime.now().isAfter(fechaBloqueo.plusMinutes(10))) {
+            reservaEnCurso = null;
+            return -2; 
+        }
+
         reservaEnCurso.setDatosCliente(cliente);
         reservaEnCurso.setDatosPago(pago);
         
         if (reservasDAO.anhadeReserva(reservaEnCurso)) {
-            return reservaEnCurso.getId();
+            int id = reservaEnCurso.getId();
+            reservaEnCurso = null;
+            fechaBloqueo = null;
+            return id;
         }
 
         return -1;

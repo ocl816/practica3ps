@@ -16,15 +16,17 @@ public class GestionHoteles implements IGestionHoteles {
     @EJB 
     private IHotelDAO hotelDAO;
 
-    public GestionHoteles(IHotelDAO hotelDAO) {
-        this.hotelDAO = hotelDAO;
-    }
-
     /**
      * @see IGestionHoteles#anhadirTipoHabitacion()
      */
     @Override
     public boolean anhadirTipoHabitacion(Hotel h, Habitacion hab) {
+        for (Habitacion existente : h.getHabitaciones()) {
+            if (existente.getTipo() == hab.getTipo()) {
+                return false;
+            }
+        }
+        
         h.getHabitaciones().add(hab);
         Hotel hotelMod = hotelDAO.modificaHotel(h);
         return hotelMod != null;
@@ -37,14 +39,12 @@ public class GestionHoteles implements IGestionHoteles {
     public boolean modificarHabitacion(Hotel h, Habitacion hab) {
         List<Habitacion> habitaciones = h.getHabitaciones();
         
-        for (Habitacion habitacion : habitaciones) {
-            if (habitacion.getTipo() == hab.getTipo()) {
-                habitaciones.remove(habitacion);
-                habitaciones.add(hab);
-                break;
-            }    
+        boolean eliminada = habitaciones.removeIf(habitacion -> habitacion.getTipo() == hab.getTipo());
+        if (!eliminada) {
+            return false; 
         }
-
+        
+        habitaciones.add(hab);
         h.setHabitaciones(habitaciones);
         Hotel hotelMod = hotelDAO.modificaHotel(h);
         return hotelMod != null;

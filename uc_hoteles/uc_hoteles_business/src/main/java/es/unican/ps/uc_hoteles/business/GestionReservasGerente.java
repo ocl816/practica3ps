@@ -8,9 +8,9 @@ import es.unican.ps.uc_hoteles.common.dao.IReservasDAO;
 import es.unican.ps.uc_hoteles.common.domain.Hotel;
 import es.unican.ps.uc_hoteles.common.domain.Reserva;
 import jakarta.ejb.EJB;
-import jakarta.ejb.Stateful;
+import jakarta.ejb.Stateless;
 
-@Stateful 
+@Stateless 
 public class GestionReservasGerente implements IGestionReservasGerente {
 
     @EJB 
@@ -24,7 +24,13 @@ public class GestionReservasGerente implements IGestionReservasGerente {
      */
     @Override
     public List<Reserva> consultarReservasHotel(Hotel h) {
-        return reservasDAO.buscaReservasPorHotel(h.getNombre());
+        List<Reserva> reservas = reservasDAO.buscaReservasPorHotel(h.getNombre());
+        
+        if (reservas != null) {
+            reservas.sort((r1, r2) -> r1.getFechaEntrada().compareTo(r2.getFechaEntrada()));
+        }
+        
+        return reservas;
     }   
 
     /**    

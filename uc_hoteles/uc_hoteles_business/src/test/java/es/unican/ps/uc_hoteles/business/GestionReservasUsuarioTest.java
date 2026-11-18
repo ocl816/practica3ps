@@ -11,9 +11,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import es.unican.ps.uc_hoteles.common.dao.IReservasDAO;
 import es.unican.ps.uc_hoteles.common.domain.Habitacion;
@@ -22,6 +24,7 @@ import es.unican.ps.uc_hoteles.common.domain.LineaReserva;
 import es.unican.ps.uc_hoteles.common.domain.Reserva;
 import es.unican.ps.uc_hoteles.common.domain.TipoHabitacion;
 
+@ExtendWith(MockitoExtension.class)
 public class GestionReservasUsuarioTest {
 
     @Mock 

@@ -13,6 +13,7 @@
         <module>uc_hoteles_dao</module>
         <module>uc_hoteles_common</module>
         <module>uc_hoteles_web</module>
+        <module>uc_hoteles_ear</module>
     </modules>
 
     <properties>

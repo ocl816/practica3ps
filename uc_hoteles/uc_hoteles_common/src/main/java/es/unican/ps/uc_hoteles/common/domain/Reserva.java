@@ -4,20 +4,43 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data 
-@NoArgsConstructor 
-@AllArgsConstructor
+@Entity 
+@Table(name = "Reservas")
 public class Reserva {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Column(name = "id_res")
     private int id;
+
+    @Column(name = "fech_ent")
     private LocalDate fechaEntrada;
+
+    @Column(name = "fech_sal")
     private LocalDate fechaSalida;
 
+    @ManyToOne
+    @JoinColumn(name = "hotel_fk") 
     private Hotel hotel;
+    
+    @OneToOne 
+    @JoinColumn(name = "clien_fk") 
     private DatosCliente datosCliente;
+
+    @Embedded 
     private DatosPago datosPago;
 
     private List<LineaReserva> lineas = new ArrayList<>();

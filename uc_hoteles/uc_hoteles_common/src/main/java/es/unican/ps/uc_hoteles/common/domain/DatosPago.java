@@ -3,8 +3,9 @@ package es.unican.ps.uc_hoteles.common.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data 
+@Data @NoArgsConstructor
 @Embeddable 
 public class DatosPago {
     @Column(name= "num_tar") 

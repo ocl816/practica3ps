@@ -12,11 +12,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data 
+@Data @NoArgsConstructor
 @Entity 
 @Table(name = "Reservas")
 public class Reserva {
@@ -26,10 +28,10 @@ public class Reserva {
     @Column(name = "id_res")
     private int id;
 
-    @Column(name = "fech_ent")
+    @Column(name = "fech_ent", nullable = false)
     private LocalDate fechaEntrada;
 
-    @Column(name = "fech_sal")
+    @Column(name = "fech_sal", nullable = false)
     private LocalDate fechaSalida;
 
     @ManyToOne
@@ -41,8 +43,11 @@ public class Reserva {
     private DatosCliente datosCliente;
 
     @Embedded 
+    @Column(name = "dat_pag", nullable = false)
     private DatosPago datosPago;
 
+    @OneToMany 
+    @JoinColumn(name = "reser_fk")
     private List<LineaReserva> lineas = new ArrayList<>();
 
     /**

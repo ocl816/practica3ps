@@ -52,11 +52,11 @@
 							<artifactId>uc_hoteles_business</artifactId>
 							<bundleFileName>UCHotelesBusiness.jar</bundleFileName>
 						</ejbModule>
-						<jarModule>
+						<ejbModule>
 							<groupId>es.unican.ps</groupId>
 							<artifactId>uc_hoteles_dao</artifactId>
 							<bundleFileName>UCHotelesDAO.jar</bundleFileName>
-						</jarModule>
+						</ejbModule>
 						<jarModule>
 							<groupId>es.unican.ps</groupId>
 							<artifactId>uc_hoteles_common</artifactId>

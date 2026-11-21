@@ -9,9 +9,8 @@
           <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>es.unican.ps</groupId>
     <artifactId>uc_hoteles_business</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -19,7 +18,6 @@
             <artifactId>uc_hoteles_common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        
     </dependencies> 
 
 </project>

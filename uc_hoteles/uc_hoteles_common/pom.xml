@@ -10,5 +10,6 @@
     </parent>
 
     <artifactId>uc_hoteles_common</artifactId>
+    <packaging>jar</packaging>
 
 </project>

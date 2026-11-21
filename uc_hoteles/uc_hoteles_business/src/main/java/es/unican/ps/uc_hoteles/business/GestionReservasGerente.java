@@ -25,11 +25,7 @@ public class GestionReservasGerente implements IGestionReservasGerente {
     @Override
     public List<Reserva> consultarReservasHotel(Hotel h) {
         List<Reserva> reservas = reservasDAO.buscaReservasPorHotel(h.getNombre());
-        
-        if (reservas != null) {
-            reservas.sort((r1, r2) -> r1.getFechaEntrada().compareTo(r2.getFechaEntrada()));
-        }
-        
+                
         return reservas;
     }   
 

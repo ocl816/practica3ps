@@ -3,10 +3,12 @@ package es.unican.ps.uc_hoteles.common.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,7 +41,7 @@ public class Hotel {
     @Column(name = "categ", nullable = false)
     private Categoria categoria;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_fk")
     private List<Habitacion> habitaciones = new ArrayList<>();
 }

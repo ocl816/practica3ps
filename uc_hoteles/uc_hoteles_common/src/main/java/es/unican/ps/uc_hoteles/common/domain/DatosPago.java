@@ -2,6 +2,8 @@ package es.unican.ps.uc_hoteles.common.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +21,8 @@ public class DatosPago {
 
     @Column(name= "anho_cad") 
     private int anhoCaducidad;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_tar", nullable = false)
+    private TipoTarjeta tipoTarjeta;
 }

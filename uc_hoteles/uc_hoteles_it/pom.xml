@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+ 
+    <parent>
+        <groupId>es.unican.ps</groupId>
+        <artifactId>uc_hoteles</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+ 
+    <artifactId>uc_hoteles_it</artifactId>
+    <packaging>jar</packaging>
+ 
+    <dependencies>
+        <dependency>
+            <groupId>es.unican.ps</groupId>
+            <artifactId>uc_hoteles_business</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>es.unican.ps</groupId>
+            <artifactId>uc_hoteles_dao</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>es.unican.ps</groupId>
+            <artifactId>uc_hoteles_common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.main.extras</groupId>
+            <artifactId>glassfish-embedded-all</artifactId>
+            <version>7.0.15</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+ 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.naming/javax.naming.spi=ALL-UNNAMED</argLine>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+ 

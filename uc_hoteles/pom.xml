@@ -14,6 +14,7 @@
         <module>uc_hoteles_common</module>
         <module>uc_hoteles_web</module>
         <module>uc_hoteles_ear</module>
+        <module>uc_hoteles_it</module>
     </modules>
 
     <properties>

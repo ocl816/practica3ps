@@ -9,13 +9,6 @@
           <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>es.unican.ps</groupId>
     <artifactId>uc_hoteles_web</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-    </properties>
-
+    <packaging>war</packaging>
 </project>
